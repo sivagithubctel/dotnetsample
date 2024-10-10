@@ -56,3 +56,36 @@ steps:
     zipAfterPublish: false
     modifyOutputPath: false
   displayName: "Publish function project"
+
+
+
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: "$(System.DefaultWorkingDirectory)/publish_core_output"
+    includeRootFolder: false
+    archiveType: "zip"
+    archiveFile: "$(System.DefaultWorkingDirectory)/publish_core_output_$(Build.BuildId).zip"
+    replaceExistingArchive: true
+  displayName: "Archive function project"
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: 'deploy/'
+    includeRootFolder: false
+    archiveType: "zip"
+    archiveFile: "$(System.DefaultWorkingDirectory)/publish_core_output_deploy_$(Build.BuildId).zip"
+    replaceExistingArchive: true
+  displayName: "Archive deploy folder"
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: "$(System.DefaultWorkingDirectory)/publish_core_output_$(Build.BuildId).zip"
+    ArtifactName: "drop"
+  displayName: "Publish Build Artifacts"
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: "$(System.DefaultWorkingDirectory)/publish_core_output_deploy_$(Build.BuildId).zip"
+    ArtifactName: "drop"
+  displayName: "Publish deploy artifacts"
