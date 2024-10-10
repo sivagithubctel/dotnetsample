@@ -44,4 +44,15 @@ steps:
     projects: "**/*.Tests.csproj"
     arguments: '--configuration "Release" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
     publishTestResults: true
-    displayName: "Run Tests"
+  displayName: "Run Tests"
+
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: "publish"
+    publishWebProjects: false
+    projects: "**/*.csproj"
+    arguments: "--configuration Release --output $(System.DefaultWorkingDirectory)/publish_core_output"
+    zipAfterPublish: false
+    modifyOutputPath: false
+  displayName: "Publish function project"
