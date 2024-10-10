@@ -37,3 +37,11 @@ steps:
     projects: "**/*.csproj"
     configuration: "Release"
   displayName: "Build Function project"
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: "test"
+    projects: "**/*.Tests.csproj"
+    arguments: '--configuration "Release" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+    publishTestResults: true
+    displayName: "Run Tests"
